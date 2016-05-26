@@ -4,7 +4,10 @@ build: docker-init
 	@docker build -t unit9/base:latest .
 
 run: build
-	@docker run --rm -ti --name base unit9/base
+	@docker run --rm -ti unit9/base
+
+shell: build
+	@docker run --rm -ti unit9/base bash
 
 clean:
 	@- rm -f docker-init
@@ -16,4 +19,4 @@ push:
 	@docker push unit9/base:latest
 
 
-.PHONY: all build run clean push
+.PHONY: all build run shell clean push
