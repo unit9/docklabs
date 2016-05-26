@@ -7,11 +7,17 @@ build:
     options: ""
 
   ci:
-  - apt-get install golang
+  # We need Go here to build the init helper in base. Build-only
+  # dependency, there's little point in pulling Go into the base.
+  - apt-get install --no-install-recommends --yes golang
   - make -C base clean all
+  - make -C python-uwsgi clean all
+  - make -C webstack clean all
 
   post_ci:
   - make -C base push
+  - make -C python-uwsgi push
+  - make -C webstack push
 
 integrations:
   hub:
