@@ -1,0 +1,22 @@
+build:
+
+  pre_ci_boot:
+    image_name: drydock/u14pytall
+    image_tag: prod
+    pull: true
+    options: ""
+
+  ci:
+  - apt-get install golang
+  - make -C base clean all
+
+  post_ci:
+  - make -C base push
+
+integrations:
+  hub:
+  - integrationName: docker-com-unit9
+    type: docker
+    branches:
+      only:
+      - master
