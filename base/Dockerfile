@@ -4,6 +4,7 @@ maintainer Kamil Cholewiński <kamil@unit9.com>
 run apt-get update && \
     apt-get dist-upgrade --yes && \
     apt-get install --no-install-recommends --yes \
+            apt-transport-https \
             ca-certificates \
             curl \
             runit \
