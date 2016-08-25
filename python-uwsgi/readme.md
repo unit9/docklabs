@@ -60,4 +60,4 @@ already exists in this image.
 
 ## License
 
-See the file [`LICENSE`][/LICENSE].
+See the file [`LICENSE`](/LICENSE).

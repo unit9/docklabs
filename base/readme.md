@@ -65,5 +65,5 @@ exec /usr/bin/my-stuff --config /etc/my_stuff.conf
 
 See here for [`docker-init.go`](https://github.com/peterbourgon/runsvinit/blob/master/LICENSE).
 
-See the file [`LICENSE`][/LICENSE] for other content in this
+See the file [`LICENSE`](/LICENSE) for other content in this
 repository.
