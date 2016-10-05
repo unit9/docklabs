@@ -1,5 +1,5 @@
 FROM node:0.12.4
-MAINTAINER Krzysztof Skoracki <krzysztof@skoracki.net>
+MAINTAINER Krzysztof Skoracki <krzysztof.skoracki@unit9.com>
 
 RUN npm install -g coffee-script yo generator-hubot  &&  \
 	useradd hubot -m
