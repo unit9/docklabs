@@ -1,7 +1,7 @@
 FROM node:0.12.4
 MAINTAINER Krzysztof Skoracki <krzysztof.skoracki@unit9.com>
 
-RUN npm install -g coffee-script yo generator-hubot  &&  \
+RUN npm install -g underscore coffee-script yo generator-hubot  &&  \
 	useradd hubot -m
 
 USER hubot
@@ -19,6 +19,6 @@ RUN yo hubot --owner="$BOT_OWNER" --name="$BOT_NAME" --description="$BOT_DESC" -
 	sed -i /redis-brain/d ./external-scripts.json && \
 	npm install hubot-scripts hubot-slack@^3.0.0
 
-CMD node -e "console.log(JSON.stringify('$EXTERNAL_SCRIPTS'.split(',')))" > external-scripts.json && \
+CMD node -e "console.log(JSON.stringify(require('underscore').map('$EXTERNAL_SCRIPTS'.split(','), function(s) { return s.split('@')[0]; })))" > external-scripts.json && \
 	npm install $(node -e "console.log('$EXTERNAL_SCRIPTS'.split(',').join(' '))") && \
 	bin/hubot -n $BOT_NAME -a slack
