@@ -8,6 +8,8 @@ USER hubot
 
 WORKDIR /home/hubot
 
+RUN npm install underscore
+
 ENV BOT_NAME "bot"
 ENV BOT_OWNER "No owner specified"
 ENV BOT_DESC "Hubot with slack adapter"
@@ -19,6 +21,6 @@ RUN yo hubot --owner="$BOT_OWNER" --name="$BOT_NAME" --description="$BOT_DESC" -
 	sed -i /redis-brain/d ./external-scripts.json && \
 	npm install hubot-scripts hubot-slack@^3.0.0
 
-CMD node -e "console.log(JSON.stringify('$EXTERNAL_SCRIPTS'.split(',')))" > external-scripts.json && \
+CMD node -e "console.log(JSON.stringify(require('underscore').map('$EXTERNAL_SCRIPTS'.split(','), function(s) { return s.split('@')[0]; })))" > external-scripts.json && \
 	npm install $(node -e "console.log('$EXTERNAL_SCRIPTS'.split(',').join(' '))") && \
 	bin/hubot -n $BOT_NAME -a slack
