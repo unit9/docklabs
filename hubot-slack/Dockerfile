@@ -1,14 +1,12 @@
 FROM node:0.12.4
 MAINTAINER Krzysztof Skoracki <krzysztof.skoracki@unit9.com>
 
-RUN npm install -g coffee-script yo generator-hubot  &&  \
+RUN npm install -g underscore coffee-script yo generator-hubot  &&  \
 	useradd hubot -m
 
 USER hubot
 
 WORKDIR /home/hubot
-
-RUN npm install underscore
 
 ENV BOT_NAME "bot"
 ENV BOT_OWNER "No owner specified"
