@@ -5,6 +5,7 @@ run apt-get update && \
     apt-get dist-upgrade --yes && \
     apt-get install --no-install-recommends --yes \
             apt-transport-https \
+            bzip2 \
             ca-certificates \
             curl \
             runit \
