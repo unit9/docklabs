@@ -12,5 +12,6 @@ run apt-get update && \
             && \
     rm -rf /var/cache/apt
 
-add docker-init /sbin/docker-init
-cmd ["/sbin/docker-init"]
+add https://github.com/peterbourgon/runsvinit/releases/download/v2.0.0/runsvinit-linux-amd64.tgz /tmp/runsvinit.tgz
+run cd /sbin && tar zxf /tmp/runsvinit.tgz && rm /tmp/runsvinit.tgz
+cmd ["/sbin/runsvinit"]
