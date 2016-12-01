@@ -12,9 +12,6 @@ shell: build
 clean:
 	@- rm -f docker-init
 
-docker-init: docker-init.go
-	go build docker-init.go
-
 push:
 	@docker push unit9/base:latest
 

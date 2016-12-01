@@ -1,21 +1,29 @@
 # Base image with runit-based service supervision
 
-The image builds upon the latest [Debian Jessie](https://hub.docker.com/_/debian/), and adds a thin init + service supervision layer.
+The image builds upon the latest
+[Debian Jessie](https://hub.docker.com/_/debian/), and adds a thin
+init + service supervision layer.
 
-The purpose is mostly for internal use at [UNIT9](http://www.unit9.com/), but there's nothing bundled that makes it UNIT9-specific.
+The purpose is mostly for internal use at
+[UNIT9](http://www.unit9.com/), but there's nothing bundled that makes
+it UNIT9-specific.
 
-PID 1 duties (spawn [runit][], reap zombies) are handled with [a simple Go program](https://github.com/peterbourgon/runsvinit) written by Peter Bourgon and hosted on Github, [license MIT](https://github.com/peterbourgon/runsvinit/blob/master/LICENSE).
+PID 1 duties (spawn [runit][], reap zombies) are handled with
+[a simple Go program](https://github.com/peterbourgon/runsvinit)
+written by Peter Bourgon and hosted on Github,
+[license MIT](https://github.com/peterbourgon/runsvinit/blob/master/LICENSE).
 
 Service supervision is handled with [runit][].
 
-Source on [Github][]: <https://github.com/unit9/docklabs/tree/master/base>
+Source on [Github][]: <https://github.com/unit9/docker-base>
 
 [runit]: http://smarden.org/runit/
 [Github]: https://github.com/
 
 ## Features and non-features
 
-- Lean, for small and fast downloads! Includes only what's absolutely essential on top of `debian:jessie`;
+- Lean, for small and fast downloads! Includes only what's absolutely
+  essential on top of `debian:jessie`;
 - `Makefile` for easy builds and uploads:
     - `make build` to build
     - `make push` to push to Docker Hub
@@ -38,9 +46,11 @@ volume /data/run_my_stuff
 expose 1234
 ```
 
-Notice that neither `cmd` or `exec` are defined; this is the role that `runit` takes.
+Notice that neither `cmd` or `exec` are defined; this is the role that
+`runit` takes.
 
-Inside the file `run_my_stuff`, there should be a shell script that reads the environment and sets up the service. For example:
+Inside the file `run_my_stuff`, there should be a shell script that
+reads the environment and sets up the service. For example:
 
 ```
 #!/bin/sh
@@ -63,7 +73,4 @@ exec /usr/bin/my-stuff --config /etc/my_stuff.conf
 
 ## License
 
-See here for [`docker-init.go`](https://github.com/peterbourgon/runsvinit/blob/master/LICENSE).
-
-See the file [`LICENSE`](/LICENSE) for other content in this
-repository.
+See the file [`LICENSE`](/LICENSE).
