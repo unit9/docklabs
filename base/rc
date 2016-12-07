@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+echo "Running /etc/rc.local"
+/etc/rc.local
+echo "Running /sbin/runsvinit"
+exec /sbin/runsvinit
