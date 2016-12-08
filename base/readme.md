@@ -27,6 +27,8 @@ Source on [Github][]: <https://github.com/unit9/docker-base>
 - `Makefile` for easy builds and uploads:
     - `make build` to build
     - `make push` to push to Docker Hub
+    - `make shell` gives you a shell in the (ephemeral) container
+- Support for `/etc/rc.local` to initialise & self-check the container
 
 ## Using with your `Dockerfile`
 
@@ -41,6 +43,7 @@ run apt-get update && \
     rm -rf /var/cache/apt
 
 add run_my_stuff /etc/service/run_my_stuff/run
+add rc.local /etc/rc.local
 
 volume /data/run_my_stuff
 expose 1234
@@ -70,6 +73,21 @@ EOF
 echo >&2 "Starting my stuff"
 exec /usr/bin/my-stuff --config /etc/my_stuff.conf
 ```
+
+Inside of `rc.local`, is another simple shell script, which can
+perform any one-off initialisation tasks or self-checks:
+
+```
+#!/bin/sh
+set -eux
+test -f /var/www/html/index.html
+lighttpd -t -f /etc/lighttpd/lighttpd.conf
+exit 0
+```
+
+Make sure the script returns a non-zero code on an error. Your
+container will exit upon failure - this is useful to e.g. stop a bad
+deployment before the rolling update brings everything down.
 
 ## License
 

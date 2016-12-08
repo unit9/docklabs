@@ -1,19 +1,25 @@
+IMAGE    := unit9/base
+VERSION  ?= latest
+NAME     ?= base
+
+
 all: build
 
-build: docker-init
-	@docker build -t unit9/base:latest .
-
-run: build
-	@docker run --rm -ti unit9/base
-
-shell: build
-	@docker run --rm -ti unit9/base bash
+build:
+	@docker build -t ${IMAGE}:${VERSION} .
 
 clean:
-	@- rm -f docker-init
+	@docker rmi ${IMAGE}:${VERSION}
+
+run: build
+	@docker run --rm -ti -P \
+		--name ${NAME} ${IMAGE}
+
+shell: build
+	@docker run --rm -ti \
+		${IMAGE} bash
 
 push:
-	@docker push unit9/base:latest
+	@docker push ${IMAGE}:${VERSION}
 
-
-.PHONY: all build run shell clean push
+.PHONY: all build run shell push

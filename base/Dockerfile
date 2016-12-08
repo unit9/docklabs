@@ -12,6 +12,12 @@ run apt-get update && \
             && \
     rm -rf /var/cache/apt
 
-add https://github.com/peterbourgon/runsvinit/releases/download/v2.0.0/runsvinit-linux-amd64.tgz /tmp/runsvinit.tgz
-run cd /sbin && tar zxf /tmp/runsvinit.tgz && rm /tmp/runsvinit.tgz
-cmd ["/sbin/runsvinit"]
+run curl -fsSL -o /tmp/runsvinit.tgz \
+    https://github.com/peterbourgon/runsvinit/releases/download/v2.0.0/runsvinit-linux-amd64.tgz \
+    && sha256sum /tmp/runsvinit.tgz \
+    && cd /sbin \
+    && tar zxf /tmp/runsvinit.tgz \
+    && chown root:root /sbin/runsvinit \
+    && rm /tmp/runsvinit.tgz
+add rc rc.local /etc/
+cmd ["/etc/rc"]
