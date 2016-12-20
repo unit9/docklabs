@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+cd /app
+exec env HOME=/tmp HOST=0.0.0.0 chpst -u app:docker python main.py
