@@ -4,7 +4,7 @@ maintainer Kamil Cholewinski <kamil.cholewinski@unit9.com>
 run apt-get update && \
     apt-get dist-upgrade --yes && \
     apt-get install --no-install-recommends --yes \
-            python-werkzeug \
+            python-flask \
             && \
     rm -rf /var/cache/apt /var/lib/apt/lists/
 
