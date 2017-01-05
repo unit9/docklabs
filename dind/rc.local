@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+gid=$(ls -ldn /var/run/docker.sock | cut -d' ' -f 4)
+groupmod -g $gid docker
