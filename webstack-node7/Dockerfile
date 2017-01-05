@@ -1,6 +1,7 @@
-from unit9/python-uwsgi:latest
-maintainer Kamil Cholewiński <kamil.cholewinski@unit9.com>
-maintainer Artiom Vasiliev <artiom@unit9.com>
+FROM unit9/python-uwsgi:latest
+
+MAINTAINER Kamil Cholewiński <kamil.cholewinski@unit9.com>
+MAINTAINER Artiom Vasiliev <artiom@unit9.com>
 
 # Install NodeJS
 RUN curl https://deb.nodesource.com/setup_7.x -o /tmp/node.sh \
