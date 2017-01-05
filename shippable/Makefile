@@ -1,4 +1,4 @@
-TAG = unit9/python-uwsgi
+TAG = unit9/shippable
 
 all: build
 
