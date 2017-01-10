@@ -18,7 +18,7 @@ ENV EXTERNAL_SCRIPTS=hubot-diagnostics,hubot-help,hubot-google-images,hubot-goog
 RUN yo hubot --owner="$BOT_OWNER" --name="$BOT_NAME" --description="$BOT_DESC" --defaults && \
 	sed -i /heroku/d ./external-scripts.json && \
 	sed -i /redis-brain/d ./external-scripts.json && \
-	npm install hubot-scripts hubot-slack@^3.0.0
+	npm install hubot-scripts hubot-slack
 
 CMD node -e "console.log(JSON.stringify(require('underscore').map('$EXTERNAL_SCRIPTS'.split(','), function(s) { return s.split('@')[0]; })))" > external-scripts.json && \
 	npm install $(node -e "console.log('$EXTERNAL_SCRIPTS'.split(',').join(' '))") && \
