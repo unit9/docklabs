@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+cd $(dirname $0)
+
+build() {
+    echo "Building: unit9/$1"
+    docker build \
+           -t unit9/$1 \
+           ./images/$1
+}
+
+case $1 in
+    all)
+        for img in images/*
+        do
+            build $(basename $img)
+        done
+        ;;
+    *)
+        build $1
+        ;;
+esac

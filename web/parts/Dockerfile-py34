@@ -1,0 +1,11 @@
+run apt-get update && \
+    apt-get install --yes --no-install-recommends \
+            python3-all-dev \
+            python3-pip \
+            python3-wheel \
+            uwsgi-plugin-python3 \
+    && rm -rf /var/cache/apt /var/lib/apt/lists
+
+env PORT=5000
+env PYTHON_MODULE=backend
+env PYTHON_CALLABLE=app
