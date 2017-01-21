@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+# Required when "$foo" shows up in proxy_pass
+# Not possible to obtain at build time
+echo \
+    resolver \
+    $(awk 'BEGIN{ORS=" "} $1=="nameserver" {print $2}' /etc/resolv.conf) \
+    ';' > /etc/nginx/resolver.conf
+
+# Sanity check for nginx.conf
+nginx -t -c /etc/nginx/nginx.conf
+
+exit 0
