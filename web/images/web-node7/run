@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+export DEBUG=${DEBUG:-0}
+cd /app
+exec http-server \
+     website \
+     -p ${PORT:-5000}
