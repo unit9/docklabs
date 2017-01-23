@@ -17,6 +17,7 @@ run apt-get update && \
             python-wheel \
             uwsgi-plugin-python \
     && rm -rf /var/cache/apt /var/lib/apt/lists
+run pip install -U pip wheel
 
 env PORT=5000
 env PYTHON_MODULE=backend

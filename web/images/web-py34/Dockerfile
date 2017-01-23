@@ -17,6 +17,7 @@ run apt-get update && \
             python3-wheel \
             uwsgi-plugin-python3 \
     && rm -rf /var/cache/apt /var/lib/apt/lists
+run pip3 install -U pip wheel
 
 env PORT=5000
 env PYTHON_MODULE=backend
