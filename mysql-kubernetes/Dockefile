@@ -1,0 +1,10 @@
+FROM mysql:8.0
+MAINTAINER Artiom Vasiliev <artiom@unit9.com>
+
+COPY mysql.sh /mysql.sh
+RUN chmod +x /mysql.sh && \
+    chmod +x /docker-entrypoint.sh
+
+VOLUME ["/var/lib/mysql/data", "/etc/mysql-credentials"]
+
+CMD ["/mysql.sh"]
