@@ -1,4 +1,4 @@
-FROM mysql:8.0
+FROM mysql:5
 MAINTAINER Artiom Vasiliev <artiom@unit9.com>
 
 COPY mysql.sh /mysql.sh

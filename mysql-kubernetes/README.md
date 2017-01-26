@@ -1,7 +1,7 @@
 MySQL on Kubernetes
 ======================
 
-Extends the original mysel docker image to (optionally) read the
+Extends the original mysql docker image to (optionally) read the
 secrets from `/etc/mysql-credentials`.
 
 Image Name: `unit9/mysql`
@@ -28,7 +28,7 @@ Usage
         spec:
           containers:
             - name: mysql
-              image: unit9/mysql:8.0
+              image: unit9/mysql:latest
               ports:
                 - name: mysql
                   containerPort: 3306
