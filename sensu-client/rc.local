@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+export PATH=$PATH:/opt/sensu/bin
+
+if [ -x /etc/rc.local.sensu ]
+then
+    /etc/rc.local.sensu
+fi
+
+sensu-client \
+    --validate_config \
+    -c /etc/sensu/client.json \
+    -d /etc/sensu/conf.d
+
+exit 0
