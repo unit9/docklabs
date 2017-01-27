@@ -11,4 +11,4 @@ fi
 [ -n "$MYSQL_ROOT_PASSWORD" ] || exit 111
 
 export MYSQL_ROOT_PASSWORD
-exec /docker-entrypoint.sh "mysqld"
+exec /entrypoint.sh "mysqld"
