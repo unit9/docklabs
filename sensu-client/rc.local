@@ -10,6 +10,7 @@ fi
 sensu-client \
     --validate_config \
     -c /etc/sensu/client.json \
-    -d /etc/sensu/conf.d
+    -d /etc/sensu/conf.d \
+    -c /etc/sensu/secrets/secrets.json
 
 exit 0

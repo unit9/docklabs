@@ -5,5 +5,6 @@ export PATH=$PATH:/opt/sensu/bin
 exec sensu-client \
      -c /etc/sensu/client.json \
      -d /etc/sensu/conf.d \
+     -c /etc/sensu/secrets/secrets.json \
      -e /etc/sensu/extensions \
      -l /dev/stdout
