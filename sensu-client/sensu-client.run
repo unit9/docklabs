@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+export PATH=$PATH:/opt/sensu/bin
+
+exec sensu-client \
+     -c /etc/sensu/client.json \
+     -d /etc/sensu/conf.d,/etc/sensu/secrets \
+     -e /etc/sensu/extensions \
+     -l /dev/stdout
