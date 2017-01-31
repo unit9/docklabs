@@ -8,10 +8,9 @@ This image packages Sensu itself, plus `run` scripts to run the
 client.
 
 Any configuration should be injected via Docker volumes, and will be
-read (in order) from files: `/etc/sensu/client.json`,
-`/etc/sensu/conf.d/*.json`, and finally
-`/etc/sensu/secrets/secrets.json`. Refer to [Sensu docs][] for details
-on configuring the client.
+read from files `/etc/sensu/client.json` and
+`/etc/sensu/conf.d/*.json`. Refer to [Sensu docs][] for details on
+configuring the client.
 
 [Sensu docs]: https://sensuapp.org/docs/latest/reference/configuration.html
 
@@ -29,6 +28,13 @@ manage certificates and passwords.
 [ConfigMap]: https://kubernetes.io/docs/user-guide/configmap/
 [Secrets]: https://kubernetes.io/docs/user-guide/secrets/
 
+Note: If the file `/etc/sensu/secrets/secrets.json` exists, it will be
+symlinked to `/etc/sensu/conf.d/secrets.json`, so that it's also
+consumed. The reason for this hack is because Kubernetes (see below)
+[doesn't support subdirectories in secret volumes][so-34936386].
+
+[so-34936386]: http://stackoverflow.com/a/34936386
+
 For example, to supply the SSL key, certificate, and password for the
 RabbitMQ transport:
 
@@ -45,8 +51,16 @@ data:
 ```
 
 Pay special attention to how [configuration merging][] works in
-Sensu - the file `secrets.json` is referenced in this image as the
-last path where Sensu will look for its configuration.
+Sensu - the file `secrets.json` (example below) is referenced in this
+image, and its contents will be picked up by Sensu.
+
+```json
+{
+  "rabbitmq": {
+    "password": "TwoAndAHalfGelatinousKubesIngestedAPedestrian&thenLeft"
+  }
+}
+```
 
 [configuration merging]: https://sensuapp.org/docs/latest/reference/configuration.html#configuration-merging
 
@@ -69,26 +83,13 @@ data:
         "host": "my-sensu-server.example.net",
         "port": 5671,
         "vhost": "/sensu",
-        "user": "sensu",
-        "password": ""
+        "user": "sensu"
       }
     }
   sensu.json: |
     { ... }
   checks.json: |
     { ... }
-```
-
-Note: because `/etc/sensu/secrets/secrets.json` is processed last
-when Sensu loads the configuration, it's a good idea to put things
-like the RabbitMQ password in there:
-
-```json
-{
-  "rabbitmq": {
-    "password": "TwoAndAHalfGelatinousKubesIngestedAPedestrian&thenLeft"
-  }
-}
 ```
 
 Finally, consume both in a Pod, ReplicationController, ReplicaSet,
