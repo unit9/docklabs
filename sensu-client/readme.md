@@ -8,9 +8,9 @@ This image packages Sensu itself, plus `run` scripts to run the
 client.
 
 Any configuration should be injected via Docker volumes, and will be
-read from files `/etc/sensu/client.json` and
-`/etc/sensu/conf.d/*.json`. Refer to [Sensu docs][] for details on
-configuring the client.
+read from files `/etc/sensu/client.json`, `/etc/sensu/conf.d/*.json`
+and `/etc/sensu/secrets/*.json`. Refer to [Sensu docs][] for details
+on configuring the client.
 
 [Sensu docs]: https://sensuapp.org/docs/latest/reference/configuration.html
 
@@ -27,13 +27,6 @@ manage certificates and passwords.
 [Kubernetes]: https://kubernetes.io/
 [ConfigMap]: https://kubernetes.io/docs/user-guide/configmap/
 [Secrets]: https://kubernetes.io/docs/user-guide/secrets/
-
-Note: If the file `/etc/sensu/secrets/secrets.json` exists, it will be
-symlinked to `/etc/sensu/conf.d/secrets.json`, so that it's also
-consumed. The reason for this hack is because Kubernetes (see below)
-[doesn't support subdirectories in secret volumes][so-34936386].
-
-[so-34936386]: http://stackoverflow.com/a/34936386
 
 For example, to supply the SSL key, certificate, and password for the
 RabbitMQ transport:

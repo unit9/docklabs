@@ -7,14 +7,9 @@ then
     /etc/rc.local.sensu
 fi
 
-if [ -f /etc/sensu/secrets/secrets.json ] && \
-       ! [ -L /etc/sensu/conf.d/secrets.json ]
-then ln -s /etc/sensu/secrets/secrets.json /etc/sensu/conf.d/secrets.json
-fi
-
 sensu-client \
     --validate_config \
     -c /etc/sensu/client.json \
-    -d /etc/sensu/conf.d
+    -d /etc/sensu/conf.d,/etc/sensu/secrets
 
 exit 0
