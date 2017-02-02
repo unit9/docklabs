@@ -106,3 +106,23 @@ spec:
     secret:
       secretName: sensu-client-secrets
 ```
+
+## Bundled plugins
+
+You may also want to look in `/etc/sensu/plugins` inside the image,
+which bundles a few checks useful for monitoring the cluster itself.
+
+```json
+{
+  "checks": {
+    "check-kube": {
+      "command": "/etc/sensu/plugins/check-kube.rb",
+      "handler": "default",
+      "interval": 30,
+      "standalone": true,
+      "notification": "Cluster check failed",
+      "occurrences": 3
+    }
+  }
+}
+```

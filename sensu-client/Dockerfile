@@ -14,5 +14,6 @@ RUN curl -fsS https://sensu.global.ssl.fastly.net/apt/pubkey.gpg \
 RUN /opt/sensu/embedded/bin/gem install sensu-plugin
 
 ENV PATH=/opt/sensu/bin:/opt/sensu/embedded/bin:$PATH
+ADD check-kube.rb /etc/sensu/plugins/
 ADD sensu-client.run /etc/service/sensu-client/run
 ADD rc.local /etc/rc.local
