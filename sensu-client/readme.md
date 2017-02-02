@@ -106,7 +106,3 @@ spec:
     secret:
       secretName: sensu-client-secrets
 ```
-
-You may also want to look at the daughter image
-`unit9/sensu-client-kubernetes`, which bundles a few checks useful for
-monitoring the cluster itself.
