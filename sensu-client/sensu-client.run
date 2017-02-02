@@ -1,6 +1,5 @@
 #!/bin/sh
 set -eu
-export PATH=$PATH:/opt/sensu/bin
 
 exec sensu-client \
      -c /etc/sensu/client.json \
