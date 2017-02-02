@@ -1,6 +1,5 @@
 #!/bin/sh
 set -eu
-export PATH=$PATH:/opt/sensu/bin
 
 if [ -x /etc/rc.local.sensu ]
 then
