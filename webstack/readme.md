@@ -54,4 +54,4 @@ documentation for `unit9/python-uwsgi` for details.
 
 ## License
 
-See the file [`LICENSE`][/LICENSE].
+See the file [`LICENSE`](/LICENSE).
