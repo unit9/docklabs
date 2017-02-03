@@ -1,18 +1,18 @@
-from unit9/base:latest
-maintainer Kamil Cholewiński <kamil.cholewinski@unit9.com>
+FROM unit9/base:latest
+MAINTAINER Kamil Cholewiński <kamil.cholewinski@unit9.com>
 
 # Dependencies
-run apt-get update && \
+RUN apt-get update && \
     apt-get install --yes --no-install-recommends \
             python-all-dev \
             python-pip \
             python-wheel \
             uwsgi-plugin-python \
-    && rm -rf /var/cache/apt
+    && rm -rf /var/cache/apt /var/lib/apt/lists
 
 # Create the space for the app
-run mkdir /app
-workdir /app
+RUN mkdir /app
+WORKDIR /app
 
 # Add "app" user to run uWSGI as
-run adduser --system --no-create-home --disabled-login --group app
+RUN adduser --system --no-create-home --disabled-login --group app

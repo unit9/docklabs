@@ -1,8 +1,8 @@
-from unit9/base:latest
-maintainer Kamil Cholewiński <kamil.cholewinski@unit9.com>
+FROM unit9/base:latest
+MAINTAINER Kamil Cholewiński <kamil.cholewinski@unit9.com>
 
-workdir /app
-run adduser --system \
+WORKDIR /app
+RUN adduser --system \
     --home /app --no-create-home \
     --disabled-login --group app \
     --uid 999

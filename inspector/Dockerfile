@@ -1,13 +1,12 @@
-from unit9/dind:latest
-maintainer Kamil Cholewinski <kamil.cholewinski@unit9.com>
+FROM unit9/dind:latest
+MAINTAINER Kamil Cholewinski <kamil.cholewinski@unit9.com>
 
-run apt-get update && \
-    apt-get dist-upgrade --yes && \
+RUN apt-get update && \
     apt-get install --no-install-recommends --yes \
             python-flask \
             && \
-    rm -rf /var/cache/apt /var/lib/apt/lists/
+    rm -rf /var/cache/apt /var/lib/apt/lists
 
-expose 8600
-add run /etc/service/inspector/run
-add main.py /app/main.py
+EXPOSE 8600
+ADD run /etc/service/inspector/run
+ADD main.py /app/main.py

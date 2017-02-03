@@ -6,16 +6,13 @@ MAINTAINER Artiom Vasiliev <artiom@unit9.com>
 # Install NodeJS
 RUN curl https://deb.nodesource.com/setup_7.x -o /tmp/node.sh \
     && bash /tmp/node.sh \
-    && apt-get install --yes nodejs \
-    && rm -rf /var/cache/apt
-
-# Install OS-level essentials
-RUN apt-get install --yes --no-install-recommends \
+    &&  apt-get install --yes --no-install-recommends \
     git-core \
+    nodejs \
     ruby \
     ruby-dev \
     ruby-ffi \
-    && rm -rf /var/cache/apt
+    && rm -rf /var/cache/apt /var/lib/apt/lists
 
 # Frontend development tools
 RUN gem install compass scss_lint

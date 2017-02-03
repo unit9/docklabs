@@ -1,7 +1,7 @@
-from debian:jessie
-maintainer Kamil Cholewiński <kamil@unit9.com>
+FROM debian:jessie
+MAINTAINER Kamil Cholewiński <kamil@unit9.com>
 
-run apt-get update && \
+RUN apt-get update && \
     apt-get dist-upgrade --yes && \
     apt-get install --no-install-recommends --yes \
             apt-transport-https \
@@ -10,14 +10,14 @@ run apt-get update && \
             curl \
             runit \
             && \
-    rm -rf /var/cache/apt
+    rm -rf /var/cache/apt /var/lib/apt/lists
 
-run curl -fsSL -o /tmp/runsvinit.tgz \
+RUN curl -fsSL -o /tmp/runsvinit.tgz \
     https://github.com/peterbourgon/runsvinit/releases/download/v2.0.0/runsvinit-linux-amd64.tgz \
     && sha256sum /tmp/runsvinit.tgz \
     && cd /sbin \
     && tar zxf /tmp/runsvinit.tgz \
     && chown root:root /sbin/runsvinit \
     && rm /tmp/runsvinit.tgz
-add rc rc.local /etc/
-cmd ["/etc/rc"]
+ADD rc rc.local /etc/
+CMD ["/etc/rc"]

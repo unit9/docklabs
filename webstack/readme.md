@@ -18,30 +18,30 @@ This image adds standard frontend build tools.
 Pull `unit9/webstack:latest` and customise this example:
 
 ```
-from unit9/webstack:latest
-maintainer You <you@example.com>
+FROM unit9/webstack:latest
+MAINTAINER You <you@example.com>
 
 # Install backend app requirements
-add requirements.txt /app
-run pip install -r ./requirements.txt
+ADD requirements.txt /app
+RUN pip install -r ./requirements.txt
 
 # Service definition for runit
-add run_my_app /etc/service/my_app/run
-env PORT=5000
-expose 5000
+ADD run_my_app /etc/service/my_app/run
+ENV PORT=5000
+EXPOSE 5000
 
 # Install frontend build dependencies via NPM
-add package.json /app
-run npm install
+ADD package.json /app
+RUN npm install
 
 # Slurp application code
-add . /app
+ADD . /app
 
 # Install frontend build dependencies via bower
-run bower install --allow-root -q
+RUN bower install --allow-root -q
 
 # Build frontend
-run gulp
+RUN gulp
 
 ```
 
@@ -54,4 +54,4 @@ documentation for `unit9/python-uwsgi` for details.
 
 ## License
 
-See the file [`LICENSE`][/LICENSE].
+See the file [`LICENSE`](/LICENSE).

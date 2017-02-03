@@ -99,4 +99,4 @@ Then, to re-generate the Dockefiles, run `./web/generate`.
 
 ## License
 
-See the file [`LICENSE`][/LICENSE].
+See the file [`LICENSE`](/LICENSE).
