@@ -1,5 +1,5 @@
-arg node_release=node_6.x
-run curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key \
+ARG node_release=node_6.x
+RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key \
     | apt-key add - \
     && echo "deb https://deb.nodesource.com/$node_release jessie main" \
     > /etc/apt/sources.list.d/nodesource.list \
@@ -8,4 +8,4 @@ run curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key \
     && rm -rf /var/cache/apt /var/lib/apt/lists \
     && echo "nodejs: $(nodejs --version)" \
     && echo "npm: $(npm --version)"
-run npm install -g http-server
+RUN npm install -g http-server

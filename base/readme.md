@@ -35,18 +35,18 @@ Source on [Github][]: <https://github.com/unit9/docker-base>
 Pull `unit9/base:latest` and customise this example:
 
 ```
-from unit9/base:latest
-maintainer You <you@example.com>
+FROM unit9/base:latest
+MAINTAINER You <you@example.com>
 
-run apt-get update && \
+RUN apt-get update && \
     apt-get install --yes my-favourite-stuff && \
-    rm -rf /var/cache/apt
+    rm -rf /var/cache/apt /var/lib/apt/lists
 
-add run_my_stuff /etc/service/run_my_stuff/run
-add rc.local /etc/rc.local
+ADD run_my_stuff /etc/service/run_my_stuff/run
+ADD rc.local /etc/rc.local
 
-volume /data/run_my_stuff
-expose 1234
+VOLUME /data/run_my_stuff
+EXPOSE 1234
 ```
 
 Notice that neither `cmd` or `exec` are defined; this is the role that

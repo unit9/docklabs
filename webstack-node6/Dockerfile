@@ -1,5 +1,5 @@
-from unit9/python-uwsgi:latest
-maintainer Kamil Cholewiński <kamil.cholewinski@unit9.com>
+FROM unit9/python-uwsgi:latest
+MAINTAINER Kamil Cholewiński <kamil.cholewinski@unit9.com>
 
 # Install NodeJS
 RUN curl https://deb.nodesource.com/setup_6.x -o /tmp/node.sh \
@@ -8,7 +8,7 @@ RUN curl https://deb.nodesource.com/setup_6.x -o /tmp/node.sh \
     && rm -rf /var/cache/apt
 
 # Install OS-level essentials
-run apt-get install --yes --no-install-recommends \
+RUN apt-get install --yes --no-install-recommends \
             git-core \
             ruby \
             ruby-dev \
@@ -16,5 +16,5 @@ run apt-get install --yes --no-install-recommends \
     && rm -rf /var/cache/apt
 
 # Frontend development tools
-run gem install compass scss_lint
-run npm install --global gulp-cli bower
+RUN gem install compass scss_lint
+RUN npm install --global gulp-cli bower

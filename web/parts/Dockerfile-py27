@@ -1,12 +1,12 @@
-run apt-get update && \
+RUN apt-get update && \
     apt-get install --yes --no-install-recommends \
             python-all-dev \
             python-pip \
             python-wheel \
             uwsgi-plugin-python \
     && rm -rf /var/cache/apt /var/lib/apt/lists
-run pip install -U pip wheel
+RUN pip install -U pip wheel
 
-env PORT=5000
-env PYTHON_MODULE=backend
-env PYTHON_CALLABLE=app
+ENV PORT=5000
+ENV PYTHON_MODULE=backend
+ENV PYTHON_CALLABLE=app
