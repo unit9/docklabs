@@ -11,6 +11,6 @@ RUN apt-key adv \
     apt-get install --no-install-recommends --yes \
             docker-engine \
             && \
-    rm -rf /var/cache/apt /var/lib/apt/lists/
+    rm -rf /var/cache/apt /var/lib/apt/lists
 
 ADD rc.local /etc/rc.local

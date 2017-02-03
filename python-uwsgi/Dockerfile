@@ -8,7 +8,7 @@ RUN apt-get update && \
             python-pip \
             python-wheel \
             uwsgi-plugin-python \
-    && rm -rf /var/cache/apt
+    && rm -rf /var/cache/apt /var/lib/apt/lists
 
 # Create the space for the app
 RUN mkdir /app

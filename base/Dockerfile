@@ -10,7 +10,7 @@ RUN apt-get update && \
             curl \
             runit \
             && \
-    rm -rf /var/cache/apt
+    rm -rf /var/cache/apt /var/lib/apt/lists
 
 RUN curl -fsSL -o /tmp/runsvinit.tgz \
     https://github.com/peterbourgon/runsvinit/releases/download/v2.0.0/runsvinit-linux-amd64.tgz \

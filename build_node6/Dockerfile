@@ -19,4 +19,4 @@ RUN apt-get update && \
         libpng-dev \
         nodejs \
         google-cloud-sdk \
-        && rm -rf /var/cache/apt
+    && rm -rf /var/cache/apt /var/lib/apt/lists

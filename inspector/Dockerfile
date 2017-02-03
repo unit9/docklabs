@@ -6,7 +6,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends --yes \
             python-flask \
             && \
-    rm -rf /var/cache/apt /var/lib/apt/lists/
+    rm -rf /var/cache/apt /var/lib/apt/lists
 
 EXPOSE 8600
 ADD run /etc/service/inspector/run
