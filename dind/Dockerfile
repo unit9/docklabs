@@ -7,7 +7,6 @@ RUN apt-key adv \
     && echo 'deb https://apt.dockerproject.org/repo debian-jessie main' \
     > /etc/apt/sources.list.d/docker.list \
     apt-get update && \
-    apt-get dist-upgrade --yes && \
     apt-get install --no-install-recommends --yes \
             docker-engine \
             && \

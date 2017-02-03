@@ -2,7 +2,6 @@ FROM unit9/dind:latest
 MAINTAINER Kamil Cholewinski <kamil.cholewinski@unit9.com>
 
 RUN apt-get update && \
-    apt-get dist-upgrade --yes && \
     apt-get install --no-install-recommends --yes \
             python-flask \
             && \
