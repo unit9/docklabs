@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
+test -n "$TARGET"
+
+if [ -n "${LOCUSTFILE_URL:-}" ]
+then
+    curl -vf -o /app/tests/locustfile.py \
+         "$LOCUSTFILE_URL"
+fi
+
+if [ -n "${MASTER_HOST:-}" ]
+then
+    exec locust -f /app/tests/locustfile.py --host $TARGET \
+         --slave --master-host=$MASTER_HOST
+elif [ "${MASTER_MODE:-}" = "1" ]
+then
+    exec locust -f /app/tests/locustfile.py --host $TARGET --master
+else
+    exec locust -f /app/tests/locustfile.py --host $TARGET
+fi
