@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+nginx
+php5-fpm -F
