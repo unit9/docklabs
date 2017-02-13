@@ -36,4 +36,4 @@ COPY ["configs/providers_collectd.json", "/etc/facette/providers/collectd.json"]
 
 EXPOSE 80
 
-CMD ["/opt/collectd/sbin/collectd", "-C", "/opt/collectd/etc/collectd.conf"]
+CMD ["/opt/collectd/sbin/collectd", "-C", "/opt/collectd/etc/collectd.conf", "-f"]
