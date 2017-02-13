@@ -1,0 +1,5 @@
+{
+  "bind": ":80",
+  "providers_dir": "/etc/facette/providers",
+  "pid_file": "/var/run/facette/facette.pid"
+}

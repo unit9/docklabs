@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -eu
+
+facette -c /etc/facette/facette.json
