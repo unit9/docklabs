@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# Put one-off initialisations and checks here
+# Make sure the script exits with a >0 status code
+# if things fail to check out!
+hello | grep -q Hello
