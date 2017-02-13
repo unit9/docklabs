@@ -2,4 +2,4 @@
 
 set -eu
 
-/opt/collectd/sbin/collectd -C /opt/collectd/etc/collectd.conf -f
+exec /opt/collectd/sbin/collectd -C /opt/collectd/etc/collectd.conf -f
