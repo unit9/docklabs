@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+# cat(1) reads standard input and copies it to standard output,
+# indefinitely.
+
+# Do not fork, do not use pidfiles!
+exec cat
