@@ -1,0 +1,8 @@
+{
+  "connector": {
+    "type": "rrd",
+    "path": "/var/lib/collectd/rrd",
+    "pattern": "(?P<source>[^/]+)/snmp/(?P<metric>.+).rrd"
+  }
+
+}
