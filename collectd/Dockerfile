@@ -4,13 +4,13 @@ MAINTAINER Artiom Vasiliev <artiom@unit9.com>
 
 COPY ["configs/sources.list", "/etc/apt/sources.list"]
 COPY ["facette.rc", "/etc/service/facette/run"]
+COPY ["collectd.rc", "/etc/service/collectd/run"]
 
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y build-essential libgcrypt20-dev librrd-dev snmp \
         libsnmp-dev snmp-mibs-downloader && \
     rm -rf /var/cache/apt /var/lib/apt/lists && \
-    chmod +x /etc/service/facette/run && \
     cd /tmp && \
     # install collectd
     curl -LO https://storage.googleapis.com/collectd-tarballs/collectd-5.7.1.tar.bz2 && \
@@ -35,5 +35,3 @@ COPY ["configs/facette.json", "/etc/facette/facette.json"]
 COPY ["configs/providers_collectd.json", "/etc/facette/providers/collectd.json"]
 
 EXPOSE 80
-
-CMD ["/opt/collectd/sbin/collectd", "-C", "/opt/collectd/etc/collectd.conf"]
