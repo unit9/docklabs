@@ -1,4 +1,4 @@
-FROM unit9:base
+FROM unit9/base:latest
 
 MAINTAINER Artiom Vasiliev <artiom@unit9.com>
 
@@ -10,9 +10,8 @@ RUN apt-get update && \
     apt-get install -y build-essential libgcrypt20-dev librrd-dev snmp \
         libsnmp-dev snmp-mibs-downloader && \
     rm -rf /var/cache/apt /var/lib/apt/lists && \
-    chmod +x /etc/service/facette/run
-
-RUN cd /tmp && \
+    chmod +x /etc/service/facette/run && \
+    cd /tmp && \
     # install collectd
     curl -LO https://storage.googleapis.com/collectd-tarballs/collectd-5.7.1.tar.bz2 && \
     tar xjf collectd-5.7.1.tar.bz2 && \
