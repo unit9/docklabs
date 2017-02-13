@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 
-php5-fpm -F
+exec php5-fpm -F
