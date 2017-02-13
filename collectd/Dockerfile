@@ -11,7 +11,6 @@ RUN apt-get update && \
     apt-get install -y build-essential libgcrypt20-dev librrd-dev snmp \
         libsnmp-dev snmp-mibs-downloader && \
     rm -rf /var/cache/apt /var/lib/apt/lists && \
-    chmod +x /etc/service/facette/run /etc/service/collectd/run && \
     cd /tmp && \
     # install collectd
     curl -LO https://storage.googleapis.com/collectd-tarballs/collectd-5.7.1.tar.bz2 && \
