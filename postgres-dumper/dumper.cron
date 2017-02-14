@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+now=`date +%s`
+pg_dumpall > /var/backups/dump-$now.sql
+gzip /var/backups/dump-$now.sql
