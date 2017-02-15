@@ -32,6 +32,7 @@ ENV PGUSER="postgres"      \
     PGPASSWORD="postgres"  \
     PGHOST="postgres"      \
     PGPORT="5432"          \
+    BOTO_PATH=""           \
     GS_PATH=""
 
 ADD dumper.cron /etc/cron.daily/50-dumper

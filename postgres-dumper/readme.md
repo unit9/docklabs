@@ -32,6 +32,7 @@ Defaults are as follows:
 - `PGPASSWORD`: `postgres`
 - `PGHOST`: `postgres`
 - `PGPORT`: `5432`
+- `BOTO_PATH`: empty
 - `GS_PATH`: empty
 
 Everything `PG*` behaves exactly as described in
@@ -41,7 +42,10 @@ Everything `PG*` behaves exactly as described in
 
 If you want to use the GCS integration, you will have to:
 
-1. Provide the credentials - e.g. by mounting `/etc/boto.cfg`, or
-   using an instance service account on GCE
+1. Provide the credentials - e.g. by mounting `/etc/boto.cfg`
+   ([or set `BOTO_PATH`][boto-path]), or using an instance service
+   account on GCE
 
 2. Set `GS_PATH`, e.g. `gs://my-test-bucket/backups/`
+
+[boto-path]: https://cloud.google.com/storage/docs/gsutil/commands/config#configuration-file-selection-procedure
