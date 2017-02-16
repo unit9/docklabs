@@ -1,3 +1,45 @@
 #!/bin/sh
 set -eu
-exec /usr/sbin/cron -f -L15
+exec 2>&1
+schedule=${1:-${PWD##*@}}
+now=${2:-}
+cd /
+
+run_jobs() {
+    set +e
+    run-parts --report /etc/cron.${schedule}
+    echo "exit: $?"
+}
+
+if [ "${now}" = "now" ]
+then
+    run_jobs
+    exit 0
+fi
+
+case ${schedule} in
+    hourly)
+        while true
+        do
+            now=`date +%M`
+            if [ $now = 17 ]
+            then run_jobs
+            fi
+            sleep $((60 - `date +%S`))
+        done
+        ;;
+    daily)
+        while true
+        do
+            now=`date +%H:%M`
+            if [ $now = 06:25 ]
+            then run_jobs
+            fi
+            sleep $((60 - `date +%S`))
+        done
+        ;;
+    *)
+        echo "Unknown schedule: ${schedule}"
+        exit 111
+        ;;
+esac

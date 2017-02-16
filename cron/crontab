@@ -1,5 +1,0 @@
-#m h d m w user cmd
-0  * * * * root cd / && run-parts --report /etc/cron.hourly
-25 6 * * * root cd / && run-parts --report /etc/cron.daily
-47 6 * * 7 root cd / && run-parts --report /etc/cron.weekly
-52 6 1 * * root cd / && run-parts --report /etc/cron.monthly
