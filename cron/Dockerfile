@@ -5,7 +5,10 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
     apt-get install --no-install-recommends --yes \
         cron \
+        socklog \
     && rm -f /etc/cron.*/* \
     && rm -rf /var/cache/apt /var/lib/apt/lists
 
-ADD cron.run /etc/service/cron/run
+ADD crontab      /etc/crontab
+ADD cron.run     /etc/service/cron/run
+ADD socklog.run  /etc/service/socklog/run
