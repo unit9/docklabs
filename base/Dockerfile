@@ -9,6 +9,7 @@ RUN apt-get update && \
             ca-certificates \
             curl \
             runit \
+            socklog \
             && \
     rm -rf /var/cache/apt /var/lib/apt/lists
 
@@ -20,4 +21,5 @@ RUN curl -fsSL -o /tmp/runsvinit.tgz \
     && chown root:root /sbin/runsvinit \
     && rm /tmp/runsvinit.tgz
 ADD rc rc.local /etc/
+ADD socklog.run /etc/service/socklog/run
 CMD ["/etc/rc"]
