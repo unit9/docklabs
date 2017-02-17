@@ -38,4 +38,5 @@ ENV PGUSER="postgres" \
 
 ADD dumper.cron /etc/cron.daily/50-dumper
 ADD uploader.cron /etc/cron.daily/60-uploader
+ADD rc.local /etc/rc.local
 VOLUME /var/backups
