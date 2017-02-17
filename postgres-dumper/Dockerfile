@@ -28,12 +28,13 @@ RUN set -x \
     && gsutil --version \
     && true
 
-ENV PGUSER="postgres"      \
-    PGPASSWORD="postgres"  \
-    PGHOST="postgres"      \
-    PGPORT="5432"          \
-    BOTO_PATH=""           \
-    GS_PATH=""
+ENV PGUSER="postgres" \
+    PGPASSWORD="postgres" \
+    PGHOST="postgres" \
+    PGPORT="5432" \
+    BOTO_PATH="" \
+    GS_PATH="" \
+    GOOGLE_APPLICATION_CREDENTIALS=""
 
 ADD dumper.cron /etc/cron.daily/50-dumper
 ADD uploader.cron /etc/cron.daily/60-uploader
