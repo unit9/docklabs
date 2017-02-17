@@ -15,10 +15,14 @@ written by Peter Bourgon and hosted on Github,
 
 Service supervision is handled with [runit][].
 
-Source on [Github][]: <https://github.com/unit9/docker-base>
+Programs that insist on logging to [syslog][] are handled with
+[socklog][].
+
+Source on Github: <https://github.com/unit9/docklabs>
 
 [runit]: http://smarden.org/runit/
-[Github]: https://github.com/
+[socklog]: http://smarden.org/socklog/
+[syslog]: https://en.wikipedia.org/wiki/syslog
 
 ## Features and non-features
 
