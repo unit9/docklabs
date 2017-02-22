@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+if test -z "${GS_PATH:-}"
+then exit 0
+fi
+
+find /var/backups -type f |
+    while read fname
+    do
+        gsutil cp $fname ${GS_PATH}
+        rm $fname
+    done

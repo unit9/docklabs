@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+now=`date +%s`
+psql -c 'select 1;' -o /dev/null
+pg_dumpall -f /var/backups/dump-$now.sql
+gzip /var/backups/dump-$now.sql
