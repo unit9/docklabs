@@ -14,7 +14,11 @@ Supported directories / schedules are:
 
 - `/etc/cron.hourly` - Every hour at 17th minute
 - `/etc/cron.daily` - Every 24 hours at 6:25 AM
+
+<!--
+TODO: not implemented
 - `/etc/cron.weekly` - Every Saturday at 6:47 AM
 - `/etc/cron.monthly` - Every month on the 1st day, at 6:52 AM
+-->
 
 [cron-8]: https://manpages.debian.org/jessie/cron/cron.8.en.html
