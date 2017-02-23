@@ -2,8 +2,6 @@ FROM unit9/base:latest
 
 MAINTAINER Krzysztof Skoracki <krzysztof.skoracki@unit9.com>
 
-COPY ["nginx.rc", "/etc/service/nginx/run"]
-
 RUN apt-get update && \
     apt-get install --yes --no-install-recommends \
             nginx-light \
@@ -11,4 +9,6 @@ RUN apt-get update && \
 
 EXPOSE 80
 
-COPY ["nginx.conf", "/etc/nginx/sites-available/default"]
+COPY ["nginx.run", "/etc/service/nginx/run"]
+COPY ["rc.local", "/etc/rc.local"]
+COPY ["vhost.conf", "/etc/nginx/sites-available/default"]
