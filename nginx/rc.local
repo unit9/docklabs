@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+# Sanity check for nginx.conf
+nginx -t -c /etc/nginx/nginx.conf
+
+exit 0
