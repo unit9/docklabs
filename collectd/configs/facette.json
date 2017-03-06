@@ -1,4 +1,0 @@
-{
-  "bind": ":80",
-  "providers_dir": "/etc/facette/providers"
-}

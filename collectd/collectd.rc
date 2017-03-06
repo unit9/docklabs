@@ -1,5 +1,0 @@
-#!/bin/sh
-
-set -eu
-
-exec /opt/collectd/sbin/collectd -C /opt/collectd/etc/collectd.conf -f
