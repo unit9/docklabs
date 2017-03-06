@@ -3,6 +3,7 @@ FROM unit9/base:latest
 MAINTAINER Artiom Vasiliev <artiom@unit9.com>
 
 COPY "sources.list" "/etc/apt/sources.list"
+COPY "collectd.run", "/etc/service/collectd/run"
 
 RUN apt-get update \
     && apt-get install -y \
@@ -28,5 +29,3 @@ RUN apt-get update \
     # cleanup
     && apt-get remove --purge -y build-essential \
     && apt-get autoremove -y
-
-CMD /opt/collectd/sbin/collectd -C /opt/collectd/etc/collectd.conf -f
