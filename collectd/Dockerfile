@@ -6,6 +6,7 @@ COPY "sources.list" "/etc/apt/sources.list"
 
 RUN apt-get update \
     && apt-get install -y \
+        --no-install-recommends \
         build-essential \
         libgcrypt20-dev \
         librrd-dev \
