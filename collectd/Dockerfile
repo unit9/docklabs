@@ -3,7 +3,7 @@ FROM unit9/base:latest
 MAINTAINER Artiom Vasiliev <artiom@unit9.com>
 
 COPY "sources.list" "/etc/apt/sources.list"
-COPY "collectd.run", "/etc/service/collectd/run"
+COPY "collectd.run" "/etc/service/collectd/run"
 
 RUN apt-get update \
     && apt-get install -y \
