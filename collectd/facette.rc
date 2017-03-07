@@ -1,5 +1,0 @@
-#!/bin/sh
-
-set -eu
-
-exec facette -c /etc/facette/facette.json

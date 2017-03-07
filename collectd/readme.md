@@ -1,10 +1,8 @@
-# Collectd daemon with Facette as frontend
+# Collectd daemon
 
-This image installs [`collectd`](https://collectd.org/) and
-[`facette`](https://facette.io/).
-
-Collectd is compiled from source and installed to `/opt` by default. Only two
-plugins are configured during compilation: snmp and rrd.
+This image installs [`collectd`](https://collectd.org/). Collectd is compiled
+from source and installed to `/opt` by default. Only two plugins are
+configured during compilation: snmp and rrd.
 
 No configuration provided for collectd in this image. You need to create
 your own config file and place it into `/opt/collectd/etc/collectd.conf`. Here's
@@ -46,6 +44,3 @@ LoadPlugin rrdtool
 
 The above configuration collects network traffic data from `gateway-router`
 and saves it as RRD database files in `/var/lib/collectd/rrd` directory.
-
-Facette is installed from the deb file and configured to read data from
-`/var/lib/collectd/rrd/<source>/snmp/`.

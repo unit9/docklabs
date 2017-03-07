@@ -1,2 +1,2 @@
-NAME := collectd-facette
+NAME := collectd
 include ../common.mk
