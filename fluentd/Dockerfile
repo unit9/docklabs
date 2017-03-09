@@ -1,7 +1,5 @@
 FROM unit9/base:latest
 
-COPY "fluentd.run" "/etc/service/fluentd/run"
-
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         ruby \
@@ -11,5 +9,7 @@ RUN apt-get update \
     && apt-get remove --purge -y build-essential \
     && apt-get autoremove -y \
     && rm -rf /var/cache/apt /var/lib/apt/lists/*
+
+COPY "fluentd.run" "/etc/service/fluentd/run"
 
 EXPOSE 5140/udp
