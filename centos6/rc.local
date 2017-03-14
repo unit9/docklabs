@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# This script is executed during container boot. Put any global
+# initialisation or self-tests here. Make sure that the script will
+# "exit 0" on success or any other value on error.
+exit 0
