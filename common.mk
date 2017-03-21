@@ -5,7 +5,11 @@ VENDOR  ?= unit9
 VERSION ?= latest
 IMAGE   ?= ${VENDOR}/${NAME}
 
+DOCKERFILE ?= Dockerfile
+
 DOCKER_RUN_ARGS ?=
+DOCKER_RUN_CMD	?=
+DOCKER_SH_CMD	?= bash
 
 all: build
 
@@ -16,9 +20,9 @@ options:
 	@echo "VERSION	= ${VERSION}"
 	@echo "DOCKER_RUN_ARGS	= ${DOCKER_RUN_ARGS}"
 
-build: Dockerfile
+build: ${DOCKERFILE}
 	@echo "BUILD ${IMAGE}:${VERSION}"
-	@docker build -t ${IMAGE}:${VERSION} .
+	@docker build -f ${DOCKERFILE} -t ${IMAGE}:${VERSION} .
 
 clean:
 	@echo "RMI ${IMAGE}:${VERSION}"
@@ -31,17 +35,11 @@ run:
 		--name ${NAME} \
 		--hostname ${NAME} \
 		${DOCKER_RUN_ARGS} \
-		${IMAGE}:${VERSION}
+		${IMAGE}:${VERSION} \
+		${DOCKER_RUN_CMD}
 
 shell:
-	@echo "RUN ${IMAGE}:${VERSION}"
-	@docker run \
-		--rm -ti \
-		--name ${NAME} \
-		--hostname ${NAME} \
-		${DOCKER_RUN_ARGS} \
-		${IMAGE}:${VERSION} \
-		bash
+	@ DOCKER_RUN_CMD=${DOCKER_SH_CMD} ${MAKE} run
 
 push:
 	@echo "PUSH ${IMAGE}:${VERSION}"
