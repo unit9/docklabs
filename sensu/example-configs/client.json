@@ -1,0 +1,19 @@
+{
+    "client": {
+        "subscriptions": ["all"],
+        "keepalive": {
+            "thresholds": {
+                "warning": 90,
+                "critical": 300
+            },
+            "handler": "default",
+            "refresh": 1800
+        }
+    },
+    "rabbitmq": {
+        "host": "rabbit",
+        "vhost": "/sensu",
+        "user": "sensu",
+        "password": "sensu"
+    }
+}

@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+exec \
+    /opt/sensu/sensu.env \
+    chpst -u sensu \
+    sensu-api \
+    -c /etc/sensu/config.json \
+    -d /etc/sensu/conf.d,/etc/sensu/secrets \
+    -e /etc/sensu/extensions

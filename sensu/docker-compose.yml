@@ -1,0 +1,40 @@
+# Run `make build` for unit9/sensu-base before building this!
+
+version: "3"
+services:
+
+  sensu-server:
+    build: ./server
+    volumes:
+    - "./example-configs/config.json:/etc/sensu/config.json"
+    links:
+    - rabbit
+    - redis
+
+  sensu-uchiwa:
+    build: ./uchiwa
+    volumes:
+    - "./example-configs/uchiwa.json:/etc/sensu/uchiwa.json"
+    ports:
+    - "3000:3000"
+    links:
+    - sensu-server
+
+  rabbit:
+    image: rabbitmq:3.6-alpine
+    hostname: rabbit
+    environment:
+      RABBITMQ_DEFAULT_USER: sensu
+      RABBITMQ_DEFAULT_PASS: sensu
+      RABBITMQ_DEFAULT_VHOST: /sensu
+
+  redis:
+    image: redis:3.0-alpine
+    hostname: redis
+
+  client:
+    build: ./client
+    volumes:
+    - "./example-configs/client.json:/etc/sensu/client.json"
+    links:
+    - rabbit

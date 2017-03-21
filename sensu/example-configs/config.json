@@ -1,0 +1,14 @@
+{
+    "rabbitmq": {
+        "host": "rabbit",
+        "vhost": "/sensu",
+        "user": "sensu",
+        "password": "sensu"
+    },
+    "redis": {
+        "host": "redis"
+    },
+    "api": {
+        "bind": "0.0.0.0"
+    }
+}

@@ -1,14 +1,9 @@
 #!/bin/sh
 set -eu
 
-if [ -x /etc/rc.local.sensu ]
-then
-    /etc/rc.local.sensu
-fi
-
-sensu-client \
+exec \
+    chpst -u sensu \
+    sensu-client \
     --validate_config \
     -c /etc/sensu/client.json \
     -d /etc/sensu/conf.d,/etc/sensu/secrets
-
-exit 0
