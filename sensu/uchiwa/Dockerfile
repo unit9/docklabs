@@ -7,13 +7,9 @@ RUN curl -fsS https://sensu.global.ssl.fastly.net/apt/pubkey.gpg \
     > /etc/apt/sources.list.d/sensu.list \
     && apt-get update \
     && apt-get install --yes --no-install-recommends \
-       sensu \
+       uchiwa \
     && rm -rf /var/cache/apt /var/lib/apt/lists \
-    && ls -ld /opt/sensu/bin/sensu-*
+    && ls -ld /opt/uchiwa/bin/uchiwa
 
-RUN /opt/sensu/embedded/bin/gem install sensu-plugin
-
-ENV PATH=/opt/sensu/bin:/opt/sensu/embedded/bin:$PATH
-ADD check-kube.rb /etc/sensu/plugins/
-ADD sensu-client.run /etc/service/sensu-client/run
-ADD rc.local /etc/rc.local
+COPY uchiwa.run /etc/service/uchiwa/run
+EXPOSE 3000

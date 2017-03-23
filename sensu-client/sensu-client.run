@@ -1,8 +1,0 @@
-#!/bin/sh
-set -eu
-
-exec sensu-client \
-     -c /etc/sensu/client.json \
-     -d /etc/sensu/conf.d,/etc/sensu/secrets \
-     -e /etc/sensu/extensions \
-     -l /dev/stdout

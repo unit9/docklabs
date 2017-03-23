@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+cd /opt/uchiwa/src
+exec \
+    chpst -u uchiwa \
+    /opt/uchiwa/bin/uchiwa \
+    -c /etc/sensu/uchiwa.json
