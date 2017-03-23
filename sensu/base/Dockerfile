@@ -9,7 +9,6 @@ RUN curl -fsS https://sensu.global.ssl.fastly.net/apt/pubkey.gpg \
     && apt-get install --yes --no-install-recommends \
        monitoring-plugins \
        nagios-plugins-contrib \
-       nagios-plugins-rabbitmq \
        nagios-snmp-plugins \
        sensu \
     && rm -rf /var/cache/apt /var/lib/apt/lists \
