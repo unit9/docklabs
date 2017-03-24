@@ -10,24 +10,27 @@ $kubernetes_api = "https://kubernetes.default"
 
 OPTS = GetoptLong.new(
   [ "--help", "-h", GetoptLong::NO_ARGUMENT ],
-  [ "--kubernetes-api", "-a", GetoptLong::OPTIONAL_ARGUMENT ],
-  [ "--dump-all", "-d", GetoptLong::OPTIONAL_ARGUMENT ],
+  [ "--kubernetes-api", "-a", GetoptLong::REQUIRED_ARGUMENT ],
+  [ "--dump-all", "-d", GetoptLong::NO_ARGUMENT ],
+  [ "--explain", "-e", GetoptLong::NO_ARGUMENT ],
+  [ "--resources", "-r", GetoptLong::REQUIRED_ARGUMENT ],
+  [ "--conditions", "-c", GetoptLong::REQUIRED_ARGUMENT ],
 )
 
-CHECKS_RESOURCES = {
-  "cpuRequestsFraction"    => {:w => 80, :c => 90, :op => :>=},
-  "cpuLimitsFraction"      => {:w => 80, :c => 90, :op => :>=},
-  "memoryRequestsFraction" => {:w => 80, :c => 90, :op => :>=},
-  "memoryLimitsFraction"   => {:w => 80, :c => 90, :op => :>=},
-  "allocatedPodsFraction"  => {:w => 80, :c => 90, :op => :>=},
+$checks_resources = {
+  "cpuRequestsFraction"    => {:w => 80, :c => 90},
+  "cpuLimitsFraction"      => {:w => 80, :c => 90},
+  "memoryRequestsFraction" => {:w => 80, :c => 90},
+  "memoryLimitsFraction"   => {:w => 80, :c => 90},
+  "allocatedPodsFraction"  => {:w => 80, :c => 90},
 }
 
-CHECKS_CONDITIONS = {
-  "DiskPressure"       => { :expect => "False", :status => :c },
-  "MemoryPressure"     => { :expect => "False", :status => :c },
-  "NetworkUnavailable" => { :expect => "False", :status => :c },
-  "OutOfDisk"          => { :expect => "False", :status => :c },
-  "Ready"              => { :expect => "True",  :status => :w },
+$checks_conditions = {
+  "DiskPressure"       => { :trigger => "True",  :status => :w },
+  "MemoryPressure"     => { :trigger => "True",  :status => :w },
+  "NetworkUnavailable" => { :trigger => "True",  :status => :c },
+  "OutOfDisk"          => { :trigger => "True",  :status => :c },
+  "Ready"              => { :trigger => "False", :status => :c },
 }
 
 def get(endpoint)
@@ -89,9 +92,12 @@ class Node
   end
 
   def check_resources
-    CHECKS_RESOURCES.collect { |metric, thresholds|
+    $checks_resources.collect { |metric, thresholds|
       value = self.info["allocatedResources"][metric]
-      operator = thresholds[:op]
+      if not value then
+        raise ArgumentError
+      end
+      operator = :>=
       status = :ok
       message = "#{metric} at #{value} within norm"
       threshold = thresholds[:w]
@@ -118,18 +124,19 @@ class Node
 
   def check_conditions
     self.info["conditions"].collect { |condition|
-      check = CHECKS_CONDITIONS[condition["type"]]
-      return if check.nil?
-      status = :ok
-      status = check[:status] if condition["status"] != check[:expect]
-      ({
-         :node      => self.name,
-         :message   => "#{condition["message"]} (node: #{@name})",
-         :condition => condition,
-         :expected  => check[:expect],
-         :status    => status,
-       })
-    }
+      check = $checks_conditions[condition["type"]]
+      if !check.nil? then
+        status = :ok
+        status = check[:status] if condition["status"] == check[:trigger]
+        ({
+           :node      => self.name,
+           :message   => "#{condition["message"]} (node: #{@name})",
+           :condition => condition,
+           :trigger   => check[:trigger],
+           :status    => status,
+         })
+      end
+    }.select {|x| !x.nil?}
   end
 
   def check_health
@@ -175,18 +182,93 @@ def run_checks
   exit status
 end
 
+def parse_arg_conditions(arg)
+  merge arg.split(",").collect { |s|
+    m = /^([A-z]+):(True|False)=([wc])$/.match s
+    if not m then
+      raise ArgumentError
+    end
+    { m[1] => { :trigger => m[2], :status => m[3].to_sym } }
+  }
+end
+
+def parse_arg_resources(arg)
+  merge arg.split(",").collect { |s|
+    m = /^([A-z]+)(:w=(\d+))?(:c=(\d+))?$/.match s
+    if not m then
+      raise ArgumentError
+    end
+    spec = { m[1] => {} }
+    if m[3] then
+      spec[m[1]][:w] = Integer(m[3])
+    end
+    if m[5] then
+      spec[m[1]][:c] = Integer(m[5])
+    end
+    spec
+  }
+end
+
+def usage
+  puts "Usage:"
+  puts "    #{$PROGRAM_NAME} <-h|--help>"
+  puts "    #{$PROGRAM_NAME} [-d] [-a URL] [-c c1,c2] [-r r1,r2]"
+end
+
+def help
+  usage
+  puts "Options:"
+  puts "    (-h | --help)                Show this help"
+  puts "    (-d | --dump-all)            Dump all acquired info"
+  puts "    (-a | --kubernetes-api) URL  Talk to k8s API there"
+  puts "    (-c | --conditions) c1,c2    Only check these conditions"
+  puts "    (-r | --resources) r1,r2     Only check these resources"
+  puts "    (-e | --explain)             Explain what would be checked"
+  puts "Condition spec: condition(:w=W|:c=C) where:"
+  puts "    condition  Condition name"
+  puts "    :W=w      Warning  if condition is W (True|False)"
+  puts "    :C=c      Critical if condition is C (True|False)"
+  puts "Resource threshold spec: resource[:w=W][:c=C] where:"
+  puts "    resource  Resource name"
+  puts "    :w=W      Warning  threshold W (0-100)"
+  puts "    :c=C      Critical threshold C (0-100)"
+  puts "Example condition specs:"
+  puts "    DiskPressure:True=w"
+  puts "    Ready:False=c"
+  puts "Example resource specs:"
+  puts "    cpuRequestsFraction:w=80:c=90"
+  puts "    cpuLimitsFraction:c=85"
+end
+
+def explain
+  puts "Current conditions to check for:"
+  $checks_conditions.each { |condition, check|
+    puts "    #{condition}:#{check[:trigger]}=#{check[:status]}"
+  }
+  puts "Current resource thresholds to check for:"
+  $checks_resources.each { |resource, thresholds|
+    puts "    #{resource}:w=#{thresholds[:w]}:c=#{thresholds[:c]}"
+  }
+end
+
 def main
   OPTS.each { |opt, arg|
     case opt
     when "--help"
-      puts "Usage:"
-      puts "    #{$PROGRAM_NAME} <-h|--help>"
-      puts "    #{$PROGRAM_NAME} [-a|--kubernetes-api = URL] [-d|--dump-all]"
-    when "--heapster-url"
-      $heapster_url = arg
+      help
+      exit
+    when "--kubernetes-api"
+      $kubernetes_api = arg
     when "--dump-all"
       dumpall
       exit
+    when "--explain"
+      explain
+      exit
+    when "--resources"
+      $checks_resources = parse_arg_resources arg
+    when "--conditions"
+      $checks_conditions = parse_arg_conditions arg
     end
   }
   run_checks
