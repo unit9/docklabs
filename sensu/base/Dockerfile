@@ -3,7 +3,7 @@ MAINTAINER Kamil Cholewiński <kamil.cholewinski@unit9.com>
 
 RUN curl -fsS https://sensu.global.ssl.fastly.net/apt/pubkey.gpg \
     | apt-key add - \
-    && echo "deb https://sensu.global.ssl.fastly.net/apt sensu main" \
+    && echo "deb https://sensu.global.ssl.fastly.net/apt jessie main" \
     > /etc/apt/sources.list.d/sensu.list \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
