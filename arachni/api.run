@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -eu
+
+exec /app/bin/arachni_rest_server --address=0.0.0.0
