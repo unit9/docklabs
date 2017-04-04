@@ -10,9 +10,13 @@ RUN cd /tmp \
     && curl -LO https://github.com/Arachni/arachni/releases/download/v1.5.1/arachni-1.5.1-0.5.12-linux-x86_64.tar.gz \
     && tar xzvf arachni-1.5.1-0.5.12-linux-x86_64.tar.gz \
     && rm arachni-1.5.1-0.5.12-linux-x86_64.tar.gz \
-    && mv arachni-1.5.1-0.5.12 /app
+    && mv arachni-1.5.1-0.5.12 /app \
+    && rm /app/system/arachni-ui-web/config/environments/development.rb \
+    && rm /app/system/arachni-ui-web/config/environments/test.rb
 
+COPY rc.local /etc/rc.local
 COPY web.run /etc/service/arachni_web/run
 COPY api.run /etc/service/arachni_api/run
+COPY postgres_setup /app/bin/postgres_setup
 
 EXPOSE 7331 9292
