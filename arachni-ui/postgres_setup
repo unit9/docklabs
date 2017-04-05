@@ -1,0 +1,38 @@
+#!/bin/sh
+
+set -eu
+
+if [ -z ${PG_HOST+x} ] || [ -z ${PG_DATABASE+x} ] || [ -z ${PG_USERNAME+x} ] ||
+    [ -z ${PG_PASSWORD+x} ]; then
+    exit
+fi
+
+# (c) http://stackoverflow.com/a/35732641
+cat >/app/system/arachni-ui-web/lib/tasks/db_exists.rake <<EOL
+namespace :db do
+  desc "Checks to see if the database exists"
+  task :exists do
+    begin
+      Rake::Task['environment'].invoke
+      ActiveRecord::Base.connection
+    rescue
+      exit 1
+    else
+      exit 0
+    end
+  end
+end
+EOL
+
+cat >/app/system/arachni-ui-web/config/database.yml <<EOL
+production:
+  host: $PG_HOST
+  adapter: postgresql
+  encoding: unicode
+  database: $PG_DATABASE
+  pool: 50
+  username: $PG_USERNAME
+  password: $PG_PASSWORD
+EOL
+
+/app/bin/arachni_web_task db:exists || /app/bin/arachni_web_task db:setup

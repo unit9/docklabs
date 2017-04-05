@@ -15,8 +15,7 @@ RUN cd /tmp \
     && rm /app/system/arachni-ui-web/config/environments/test.rb
 
 COPY rc.local /etc/rc.local
-COPY web.run /etc/service/arachni_web/run
 COPY api.run /etc/service/arachni_api/run
 COPY postgres_setup /app/bin/postgres_setup
 
-EXPOSE 7331 9292
+EXPOSE 80
