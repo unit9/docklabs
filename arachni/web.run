@@ -1,5 +1,12 @@
 #!/bin/sh
-
 set -eu
-
-exec /app/bin/arachni_web --host=0.0.0.0
+export DEBUG=${DEBUG:-0}
+cd /app
+exec chpst -u app   \
+     uwsgi_python27 \
+     --master       \
+     --http-socket :$PORT              \
+     --processes ${UWSGI_PROCESSES:-2} \
+     --threads ${UWSGI_THREADS:-32}    \
+     --module web \
+     --callable app

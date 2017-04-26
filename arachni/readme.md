@@ -5,31 +5,36 @@ scanner. Arachni is a feature-full, modular, high-performance Ruby framework
 aimed towards helping penetration testers and administrators evaluate the
 security of modern web applications.
 
-Web and REST API services are started on ports `9292` and `7331` respectively.
-API is not using any authentication either so use NGINX or some other proxy to
-add authentication if needed.
+Due to the difference in the way cli version of the scanner works over
+the API, this image is using a very simple web UI to launch the console
+scanner.
 
-## Database
+Frontend is written in [`Flask`](http://flask.pocoo.org/),
+[`Celery`](http://www.celeryproject.org/), and [`Redis`](https://redis.io/).
+Celery is using a single worker so only one instance of the scanner can run
+at the same time.
 
-By default if you do not pass any parameters to `docker run`, arachni will use
-local SQLite database. If you want to use Postgres, pass the following
-arguments:
+After the scan completion an email report is sent using Amazon SES. Because
+the html report is too big and other versions are not human-friendly, the
+scanner source code has been patched to allow plain text reports.
 
-* PG_HOST
-* PG_DATABASE
-* PG_USERNAME
-* PG_PASSWORD
+Web UI is running on port 5000.
 
-For example:
+## Running the image
 
+You need to pass the following environment variables:
+
+- `QA_EMAIL`
+- `ROOT_EMAIL`
+- `SES_SERVER`
+- `SES_PORT`
+- `SES_USERNAME`
+- `SES_PASSWORD`
+- `SES_FROM`
+- `DEBUG`
+- `SENTRY_DSN`
+
+Here is an example of running the image:
 ```
-docker run -d -p 9292:9292 -p 7331:7331 --name arachni \
-    -e PG_HOST=192.168.50.1 -e PG_DATABASE=arachni \
-    -e PG_USERNAME=postgres -e PG_PASSWORD=arachni \
-    unit9/arachni:latest
+docker run -it --rm --name arachni -p 8080:5000 -e QA_EMAIL=qa@company.com -e ROOT_EMAIL=root@company.com -e SES_FROM=aws@company.com -e SES_SERVER=email.amazonaws.com -e SES_PORT=587 -e SES_USERNAME=username -e SES_PASSWORD=password -e DEBUG=1 arachni:latest
 ```
-
-Arachni will try to connect to your Postgres instance and check if the database
-already exists, if not it will be created and the initial migrations applied.
-Use the default [credentials](https://github.com/Arachni/arachni-ui-web/wiki/database)
-to login.

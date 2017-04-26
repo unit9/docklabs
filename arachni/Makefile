@@ -1,4 +1,4 @@
 NAME := arachni
 VERSION := latest
-DOCKER_RUN_ARGS := -p 7331:7331 -p 9292:9292
+DOCKER_RUN_ARGS := -p 8080:5000
 include ../common.mk

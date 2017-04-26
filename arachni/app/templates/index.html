@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+    <head>
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Scanner</title>
+
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+        <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+        <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+        <script>
+            function removeArgument(el) {
+                var row = el.parentNode.parentNode,
+                    parent = row.parentNode;
+                var rows = parent.getElementsByClassName("option-group");
+                if (rows.length > 1)
+                    parent.removeChild(row);
+            }
+            function addArgument(el) {
+                var parent = el.parentNode.parentNode,
+                    clone = parent.cloneNode(true);
+                parent.parentNode.insertBefore(clone, parent.nextSibling);
+            }
+            function formSubmit() {
+                var groups = document.getElementsByClassName("option-group");
+                for (var i = 0; i < groups.length; i++) {
+                    var group = groups[i],
+                        select = group.getElementsByTagName("select")[0],
+                        selectedOpt = select.options[select.selectedIndex].value,
+                        input = group.getElementsByTagName("input")[0];
+                    input.setAttribute("name", selectedOpt);
+                }
+                return true;
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Security Scanner</h1>
+            <form class="pure-form pure-form-aligned" method="post" onsubmit="return formSubmit();">
+                <fieldset>
+                    <div class="row">
+                        <div class="column column-20"><h3>URL</h3></div>
+                        <div class="column column-60"><input type="text" name="website-url" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="column column-20"><h3>Email reports to</h3></div>
+                        <div class="column column-60"><input type="text" name="to" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="column column-20"><h3>Notify QA</h3></div>
+                        <div class="column"><input type="checkbox" name="qa" /></div>
+                    </div>
+                    <div class="row option-group">
+                        <div class="column column-20">
+                            <select name="opt-name"> 
+                                <option value=""></option>
+                                {% for name, _ in options.iteritems() -%}
+                                <option value="{{ name }}">{{ name }}</option>
+                                {%- endfor %}
+                            </select>
+                        </div>
+                        <div class="column column-60"><input type="text" name="opt-value" /></div>
+                        <div class="column column-20">
+                            <input class="button button-outline" type="button" value="+" onclick="addArgument(this)" />
+                            <input class="button button-outline" type="button" value="x" onclick="removeArgument(this)" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column"><input type="submit" value="scan" /></div>
+                    </div>
+                </fieldset>
+            </form>
+		</div>
+    </body>
+</html>
