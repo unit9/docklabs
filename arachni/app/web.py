@@ -126,11 +126,7 @@ def index():
         '--output-only-positives',
         '--plugin="email_notify:{}"'.format(email_plugin_args)] + options
 
-    print(args)
-
     task_id = run_scan.delay(args, 'artiom')
-    print(task_id)
-    print(url_for('status', task_id=task_id))
     return redirect(url_for('status', task_id=task_id))
 
 
