@@ -1,5 +1,4 @@
 #!/bin/sh
 set -eu
 cd /app
-exec chpst -u app   \
-    celery -A tasks worker -l error
+exec chpst -u app celery -A tasks worker -l error

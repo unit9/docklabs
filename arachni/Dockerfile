@@ -3,18 +3,11 @@ FROM unit9/python-uwsgi:latest
 MAINTAINER Artiom Vasiliev <artiom@unit9.com>
 
 RUN apt-get update \
-    && apt-get install -y build-essential \
+    && apt-get install -y --no-install-recommends git \
     && rm -rf /var/cache/apt /var/lib/apt/lists/*
 
-# Install redis and arachni
+# Download and install arachni
 RUN cd /tmp \
-    && curl -LO http://download.redis.io/redis-stable.tar.gz \
-    && tar xvzf redis-stable.tar.gz \
-    && cd redis-stable \
-    && make \
-    && make install \
-    && cd /tmp \
-    && rm -rf redis-stable \
     && curl -LO https://github.com/Arachni/arachni/releases/download/v1.5.1/arachni-1.5.1-0.5.12-linux-x86_64.tar.gz \
     && tar xzvf arachni-1.5.1-0.5.12-linux-x86_64.tar.gz \
     && sed -i "s/marshal/txt/" arachni-1.5.1-0.5.12/system/gems/gems/arachni-1.5.1/components/plugins/email_notify.rb \
@@ -25,16 +18,12 @@ RUN cd /tmp \
         /scanner/system/logs \
         /scanner/system/home
 
-# Install app requirements
-COPY app/requirements.txt /app
-RUN pip install -r /app/requirements.txt
-
-COPY app /app
+# Download setup web ui
+RUN git clone https://github.com/unit9/arachni-ui /app \
+    && pip install -r /app/requirements.txt
 
 WORKDIR /app
 
-COPY redis.conf /etc/
-COPY redis.run /etc/service/redis/run
 COPY celery.run /etc/service/celery/run
 COPY web.run /etc/service/web/run
 
