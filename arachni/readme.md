@@ -5,31 +5,38 @@ scanner. Arachni is a feature-full, modular, high-performance Ruby framework
 aimed towards helping penetration testers and administrators evaluate the
 security of modern web applications.
 
-Web and REST API services are started on ports `9292` and `7331` respectively.
-API is not using any authentication either so use NGINX or some other proxy to
-add authentication if needed.
+Due to the difference in the way cli version of the scanner works over
+the API, this image is using a very simple web UI to launch the console
+scanner.
 
-## Database
+This image is using a simple [web ui](https://github.com/unit9/arachni-ui)
+which is written in [`Flask`](http://flask.pocoo.org/),
+[`Celery`](http://www.celeryproject.org/), and [`Redis`](https://redis.io/).
+Celery is using a single worker so only one instance of the scanner can run
+at the same time.
 
-By default if you do not pass any parameters to `docker run`, arachni will use
-local SQLite database. If you want to use Postgres, pass the following
-arguments:
+scanner source code has been patched to allow plain text reports.
 
-* PG_HOST
-* PG_DATABASE
-* PG_USERNAME
-* PG_PASSWORD
+Web UI is running on port 5000.
 
-For example:
+## Running the image
 
+You need to pass the following environment variables:
+
+- `DEBUG` - either 0 or 1, optional, set to 0
+- `SCANNER_PATH` - absolute path to arachni scanner, e.g. `/bin/arachni`
+- `SCANNER_REPORT_PATH` - path to a dir where to save reports
+- `CC_EMAIL` - email address to send report to
+- `BCC_EMAIL` - email address to send report to
+- `FROM_EMAIL` - sender's email
+- `SMTP_SERVER` - smtp server's address
+- `SMTP_PORT` - smtp server's port, optional, set to 25
+- `SMTP_USERNAME` - server's login, optional
+- `SMTP_PASSWORD` - server's password, optional
+- `CELERY_BROKER_URL` - [broker url](http://docs.celeryproject.org/en/latest/getting-started/brokers/index.html) for Celery
+- `CELERY_RESULT_BACKEND` - [result backend](http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-result_backend) to store scan results
+
+Here is an example of running the image:
 ```
-docker run -d -p 9292:9292 -p 7331:7331 --name arachni \
-    -e PG_HOST=192.168.50.1 -e PG_DATABASE=arachni \
-    -e PG_USERNAME=postgres -e PG_PASSWORD=arachni \
-    unit9/arachni:latest
+docker run -it --rm --name arachni -p 8080:5000 -e CC_EMAIL=security@company.com -e BCC_EMAIL=it@company.com -e FROM_EMAIL=scanner@company.com -e SMTP_SERVER=smtp.company.com -e SMTP_PORT=587 -e DEBUG=1 -e CELERY_BROKER_URL="redis://redis:6379/0" -e CELERY_RESULT_BACKEND="redis://redis:6379/0" arachni:latest
 ```
-
-Arachni will try to connect to your Postgres instance and check if the database
-already exists, if not it will be created and the initial migrations applied.
-Use the default [credentials](https://github.com/Arachni/arachni-ui-web/wiki/database)
-to login.
