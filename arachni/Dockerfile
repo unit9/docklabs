@@ -11,12 +11,12 @@ RUN cd /tmp \
     && curl -LO https://github.com/Arachni/arachni/releases/download/v1.5.1/arachni-1.5.1-0.5.12-linux-x86_64.tar.gz \
     && tar xzvf arachni-1.5.1-0.5.12-linux-x86_64.tar.gz \
     && sed -i "s/marshal/txt/" arachni-1.5.1-0.5.12/system/gems/gems/arachni-1.5.1/components/plugins/email_notify.rb \
-    && mv arachni-1.5.1-0.5.12 /scanner \
-    && chmod -R 777 /scanner/system/arachni-ui-web/config/component_cache \
-        /scanner/system/arachni-ui-web/db \
-        /scanner/system/arachni-ui-web/tmp \
-        /scanner/system/logs \
-        /scanner/system/home
+    && mv arachni-1.5.1-0.5.12 /opt/scanner \
+    && chmod -R 777 /opt/scanner/system/arachni-ui-web/config/component_cache \
+        /opt/scanner/system/arachni-ui-web/db \
+        /opt/scanner/system/arachni-ui-web/tmp \
+        /opt/scanner/system/logs \
+        /opt/scanner/system/home
 
 # Download setup web ui
 RUN git clone https://github.com/unit9/arachni-ui /app \
@@ -27,7 +27,7 @@ WORKDIR /app
 COPY celery.run /etc/service/celery/run
 COPY web.run /etc/service/web/run
 
-ENV SCANNER_PATH=/scanner/bin/arachni \
+ENV SCANNER_PATH=/opt/scanner/bin/arachni \
     SCANNER_REPORT_PATH=/tmp \
     PORT=5000
     
