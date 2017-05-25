@@ -2,5 +2,17 @@
 set -eu
 echo "Running /etc/rc.local"
 /etc/rc.local
+
+echo "Running self-checks"
+find /etc/service -type f -name run -not -perm /u=x |
+    while read fname
+    do
+        echo "FATAL: file does not have the u+x bit set: $fname"
+        echo "       Either use 'chmod +x', or rename the file."
+        echo "       Consult runit man pages for details:"
+        echo "       http://smarden.org/runit/"
+        exit 111
+    done
+
 echo "Running /sbin/runsvinit"
 exec /sbin/runsvinit
