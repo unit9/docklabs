@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+mkdir -p /run/haproxy
+exec haproxy -db -f /etc/haproxy/haproxy.cfg
+
