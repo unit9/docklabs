@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+
+MYSQL_USER=${MYSQL_USER:-root}
+MYSQL_HOST=${MYSQL_HOST:-localhost}
+MYSQL_PORT=${MYSQL_PORT:-3306}
+
+if [-z "${MYSQL_PASSWORD}"]; then
+    exit 0
+fi
+
+NOW=`date +%s`
+
+DATABASES=`mysql --host=$MYSQL_HOST --port=$MYSQL_PORT --user=$MYSQL_USER -p$MYSQL_PASSWORD -e "SHOW DATABASES;" | grep -Ev "(Database|information_schema|performance_schema)"`
+ 
+for db in $DATABASES; do
+  mysqldump --force --opt --user=$MYSQL_USER -p$MYSQL_PASSWORD --databases $db | gzip > "/var/backups/$db-$NOW.gz"
+done
