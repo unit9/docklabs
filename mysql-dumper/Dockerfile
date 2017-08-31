@@ -28,10 +28,10 @@ RUN set -x \
     && gsutil --version \
     && true
 
-ENV PGUSER="postgres" \
-    PGPASSWORD="postgres" \
-    PGHOST="postgres" \
-    PGPORT="5432" \
+ENV MYSQL_USER="root" \
+    MYSQL_PASSWORD="" \
+    MYSQL_HOST="localhost" \
+    MYSQL_PORT="3306" \
     BOTO_PATH="" \
     GS_PATH="" \
     GOOGLE_APPLICATION_CREDENTIALS=""
