@@ -1,11 +1,11 @@
-NAME := postgres-dumper
+NAME := mysql-dumper
 DOCKER_RUN_ARGS := \
-	--link postgres:postgres \
+	--link mysql:mysql \
 	-v ${PWD}/backups:/var/backups \
 	-v ${PWD}/boto.cfg:/etc/boto.cfg \
 	-e GS_PATH=gs://my-test-bucket/backups/ \
-	-e PGHOST=postgres \
-	-e PGUSER=postgres \
-	-e PGPASSWORD=1234
+	-e MYSQL_HOST=mysql \
+	-e MYSQL_USER=root \
+	-e MYSQL_PASSWORD=1234
 
 include ../common.mk

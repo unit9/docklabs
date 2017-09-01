@@ -1,13 +1,10 @@
 FROM unit9/cron:latest
-MAINTAINER Kamil Cholewiński <kamil.cholewinski@unit9.com>
-
-RUN echo 'deb http://cdn.debian.net/debian/ jessie-backports main' \
-    > /etc/apt/sources.list.d/jessie-backports.list
+MAINTAINER Artiom Vasiliev <artiom@unit9.com>
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
     apt-get install --no-install-recommends --yes \
-        postgresql-client-9.6/jessie-backports \
+        mysql-client \
         python \
     && rm -rf /var/cache/apt /var/lib/apt/lists
 
@@ -23,7 +20,6 @@ RUN set -x \
     && gcloud --quiet components install \
        gsutil \
     && ln -s /opt/google-cloud-sdk/bin/gsutil /usr/local/bin/gsutil \
-    && mv /root/.bashrc.backup /root/.bashrc \
     && gcloud --version \
     && gsutil --version \
     && true
