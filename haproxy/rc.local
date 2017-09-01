@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+haproxy -v
+{
+    echo /etc/haproxy/defaults.cfg
+    find /etc/haproxy/conf.d -maxdepth 1 -name "*.cfg" | sort
+} | xargs -r cat > /etc/haproxy/haproxy.cfg
+haproxy -c -f /etc/haproxy/haproxy.cfg
