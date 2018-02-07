@@ -1,4 +1,4 @@
-FROM node:0.12.4
+FROM node:8
 MAINTAINER Krzysztof Skoracki <krzysztof.skoracki@unit9.com>
 
 RUN npm install -g coffee-script yo generator-hubot && \
