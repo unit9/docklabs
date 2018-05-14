@@ -65,7 +65,7 @@ end
 class Dashboard
   def nodes
     (get "/api/v1/proxy/namespaces/kube-system" +
-         "/services/kubernetes-dashboard/api/v1/node/")["nodes"] \
+         "/services/https:kubernetes-dashboard:/api/v1/node/")["nodes"] \
       .collect { |data|
       Node.new data["objectMeta"]["name"]
     }
@@ -85,7 +85,7 @@ class Node
   def info
     if @cached_info.nil?
       @cached_info = (get "/api/v1/proxy/namespaces/kube-system" +
-                          "/services/kubernetes-dashboard/api/v1/node/#{@name}")
+                          "/services/https:kubernetes-dashboard:/api/v1/node/#{@name}")
       self._hydrate
     end
     @cached_info
