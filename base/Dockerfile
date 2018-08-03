@@ -1,5 +1,22 @@
-FROM debian:jessie
-MAINTAINER Kamil Cholewiński <kamil@unit9.com>
+FROM debian:9-slim as socklog-builder
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update && \
+    apt-get install --yes \
+    make \
+    gcc \
+    wget
+
+WORKDIR /root
+RUN wget http://smarden.org/socklog2/socklog-2.0.3.tar.gz && \
+    tar xvfz socklog-2.0.3.tar.gz && \
+    cd admin/socklog-2.0.3 && \
+    package/install
+
+FROM debian:9-slim
+
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
     apt-get dist-upgrade --yes && \
@@ -9,7 +26,6 @@ RUN apt-get update && \
             ca-certificates \
             curl \
             runit \
-            socklog \
             && \
     rm -rf /var/cache/apt /var/lib/apt/lists
 
@@ -20,6 +36,13 @@ RUN curl -fsSL -o /tmp/runsvinit.tgz \
     && tar zxf /tmp/runsvinit.tgz \
     && chown root:root /sbin/runsvinit \
     && rm /tmp/runsvinit.tgz
+
+COPY --from=socklog-builder /root/admin/socklog/command/socklog /sbin/
+COPY --from=socklog-builder /root/admin/socklog/command/socklog-check /sbin/
+COPY --from=socklog-builder /root/admin/socklog/command/socklog-conf /sbin/
+COPY --from=socklog-builder /root/admin/socklog/command/tryto /sbin/
+COPY --from=socklog-builder /root/admin/socklog/command/uncat /sbin/
+
 ADD rc rc.local /etc/
 ADD socklog.run /etc/service/socklog/run
 CMD ["/etc/rc"]
