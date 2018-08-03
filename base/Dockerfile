@@ -42,6 +42,7 @@ COPY --from=socklog-builder /root/admin/socklog/command/socklog-check /sbin/
 COPY --from=socklog-builder /root/admin/socklog/command/socklog-conf /sbin/
 COPY --from=socklog-builder /root/admin/socklog/command/tryto /sbin/
 COPY --from=socklog-builder /root/admin/socklog/command/uncat /sbin/
+RUN adduser --system --no-create-home --disabled-login --group log
 
 ADD rc rc.local /etc/
 ADD socklog.run /etc/service/socklog/run
