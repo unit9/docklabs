@@ -1,10 +1,6 @@
 #!/usr/bin/env sh
 set -eu
 
-# Basic http auth
-if [ -z ${HTTP_USER} ]; then echo "Provide HTTP_USER. Exiting"; exit 1; fi
-if [ -z ${HTTP_PASS} ]; then echo "Provide HTTP_PASS. Exiting"; exit 1; fi
-echo "${HTTP_PASS}" | htpasswd -i -c /etc/nginx/.htpasswd ${HTTP_USER}
 
 NGINX_PORT=${NGINX_PORT:-80}
 NGINX_SERVER_NAME=${NGINX_SERVER_NAME:-_}
@@ -22,6 +18,11 @@ PHP_FPM_PROCESS_MANAGER_MAX_SPARE_SERVERS=${PHP_FPM_PROCESS_MANAGER_MAX_SPARE_SE
 
 case ${1} in
     app:start)
+        # Basic http auth
+        if [ -z ${HTTP_USER} ]; then echo "Provide HTTP_USER. Exiting"; exit 1; fi
+        if [ -z ${HTTP_PASS} ]; then echo "Provide HTTP_PASS. Exiting"; exit 1; fi
+        echo "${HTTP_PASS}" | htpasswd -i -c /etc/nginx/.htpasswd ${HTTP_USER}
+
         cat ${DOCKAGE_ETC_DIR}/runtime/configs/php/php-fpm.conf | \
         sed -e "s#{{PHP_FPM_USER}}#$PHP_FPM_USER#g" \
             -e "s#{{PHP_FPM_GROUP}}#$PHP_FPM_GROUP#g" \
