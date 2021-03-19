@@ -6,7 +6,7 @@ gevent==1.1.1
 greenlet==0.4.10
 html5lib==0.999
 itsdangerous==0.24
-Jinja2==2.8
+Jinja2==2.11.3
 locustio==0.7.5
 MarkupSafe==0.23
 msgpack-python==0.4.8
